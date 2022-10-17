@@ -1,0 +1,36 @@
+{
+  "name": "sami-hosipital-ms",
+  "version": "1.0.0",
+  "description": "This is Hospital management system",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest --watchAll",
+    "start": "nodemon src/server.js"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abdulkeza/Sami-Hosipital-MS.git"
+  },
+  "keywords": [],
+  "author": "Sami",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abdulkeza/Sami-Hosipital-MS/issues"
+  },
+  "homepage": "https://github.com/Abdulkeza/Sami-Hosipital-MS#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.6.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "jest": "^29.2.0",
+    "supertest": "^6.3.0"
+  }
+}
