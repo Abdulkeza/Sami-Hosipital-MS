@@ -2,13 +2,20 @@
   "name": "sami-hosipital-ms",
   "version": "1.0.0",
   "description": "This is Hospital management system",
-  "main": "index.js",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest --coverage",
+    "test-watch": "jest --watchAll",
     "start": "nodemon src/server.js"
   },
-
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/services/"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Abdulkeza/Sami-Hosipital-MS.git"
@@ -30,7 +37,11 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.4",
     "jest": "^29.2.0",
-    "supertest": "^6.3.0"
+    "supertest": "^6.3.0",
+    "nodemon": "^2.0.20"
   }
 }

@@ -9,7 +9,7 @@ import {
 } from './services/mongo.js';
 
 dotenv.config();
-jest.setTimeout(2000);
+jest.setTimeout(5000);
 
 describe('Welcome API', () => {
     beforeAll(async () => {
