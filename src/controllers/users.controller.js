@@ -5,6 +5,7 @@ import {
   handleCreate,
   handleGetSingle,
   handleDelete,
+  handleCreateUser
 } from "../helpers/baseHelpers.js";
 import passwordGenerator from "../utils/generatePassword.js";
 import { findUserByEmail, isCorrectPassword, generateToken} from "../helpers/userHelper.js";
@@ -29,7 +30,7 @@ const userExist = await findUserByEmail(email)
     role,
   };
 
-  handleCreate(User, newUser, res);
+  handleCreateUser(User, newUser, res);
 };
 
 // @desc Login a new user
@@ -47,6 +48,7 @@ const httpLoginUser = expressAsyncHandler(async (req, res) => {
           email: foundUser.email,
           lastName: foundUser.lastName,
           firstName: foundUser.firstName,
+          role: foundUser.role,
           token: generateToken(foundUser)
       })
   } else {

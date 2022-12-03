@@ -18,6 +18,24 @@ const handleCreate = expressAsyncHandler(async (Model, data, res) => {
   return res.status(400).json(body);
 });
 
+const handleCreateUser = expressAsyncHandler(async (Model, data, res) => {
+  if (!Object.keys(data).length)
+    return res
+      .status(400)
+      .json({ status: "Fail", message: "please provide required information" });
+  const registeredUser = await Model.create(data);
+    
+  (registeredUser)? res.status(201).json({
+    _id: registeredUser._id,
+    email: registeredUser.email,
+    lastName: registeredUser.lastName,
+    firstName: registeredUser.firstName,
+    role: registeredUser.role,
+    phone: registeredUser.phone
+}):  res.status(400).json(registeredUser);
+
+});
+
 const handleGetSingle = expressAsyncHandler(async (Model, itemId) => {
   return await Model.findById(itemId, {password: 0}, (error, result) => {
     if (error) {
@@ -52,4 +70,5 @@ export {
   handleGetSingle,
   handleEdit,
   handleDelete,
+  handleCreateUser
 };
