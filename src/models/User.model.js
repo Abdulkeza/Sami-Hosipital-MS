@@ -35,6 +35,13 @@ const userSchema = mongoose.Schema(
       required: true,
       default: "user",
     },
+    accessLevel: {
+      type: Number,
+      required: true,
+      default: 10,
+      minimum: 0,
+      maximum: 10
+  },
     isActive: {
       type: String,
       required: true,

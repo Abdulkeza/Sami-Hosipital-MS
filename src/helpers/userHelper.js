@@ -1,7 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import bcrypt from 'bcryptjs';
 import  jwt  from "jsonwebtoken";
-import User from "../models/User.js";
+import User from "../models/User.model.js";
 
 const findUserByEmail = expressAsyncHandler(async (email) => {
   return await User.findOne({ email: email }, (error, result) => {
@@ -25,7 +25,7 @@ const isCorrectPassword = expressAsyncHandler(async (foundUser, userInfo) => {
 // Token generator
 const generateToken = (user) => {
   //we may also include user role with in token???????????????/
-  return jwt.sign({ id: user._id, }, process.env.JWT_SECRET, {
+  return jwt.sign({ id: user._id,  accessLevel: user.accessLevel}, process.env.JWT_SECRET, {
       expiresIn: '1d'
   })
 }
