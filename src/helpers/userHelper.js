@@ -37,4 +37,5 @@ const handleGetAllUsers = expressAsyncHandler(async(model, res) =>{
  
 })
 
+
 export { findUserByEmail, handleGetAllUsers, isCorrectPassword, generateToken};
