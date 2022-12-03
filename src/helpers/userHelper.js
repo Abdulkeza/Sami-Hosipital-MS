@@ -1,0 +1,40 @@
+import expressAsyncHandler from "express-async-handler";
+import bcrypt from 'bcryptjs';
+import  jwt  from "jsonwebtoken";
+import User from "../models/User.js";
+
+const findUserByEmail = expressAsyncHandler(async (email) => {
+  return await User.findOne({ email: email }, (error, result) => {
+    if (error) return null;
+    return result;
+  })
+    .clone()
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+//check if pswd is valid
+const isCorrectPassword = expressAsyncHandler(async (foundUser, userInfo) => {
+  if (foundUser && (await bcrypt.compare(userInfo.password, foundUser.password))) {
+      return true
+  }
+  return false
+})
+
+// Token generator
+const generateToken = (user) => {
+  //we may also include user role with in token???????????????/
+  return jwt.sign({ id: user._id, }, process.env.JWT_SECRET, {
+      expiresIn: '1d'
+  })
+}
+
+
+
+const handleGetAllUsers = expressAsyncHandler(async(model, res) =>{
+
+ 
+})
+
+export { findUserByEmail, handleGetAllUsers, isCorrectPassword, generateToken};
