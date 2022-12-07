@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 
-import User from "../models/User.js";
+import User from "../models/User.model.js";
 import {
   handleCreate,
   handleGetSingle,
@@ -14,7 +14,7 @@ import { findUserByEmail, isCorrectPassword, generateToken} from "../helpers/use
 // @route /api/v1/users/register
 // @access Public 
 const httpRegisterUser = async (req, res) => {
-  const { firstName, lastName, email, phone, password, role } = req.body;
+  const { firstName, lastName, email, phone, password, role, accessLevel } = req.body;
 const userExist = await findUserByEmail(email)
     if (userExist) {
       return res.status(400).json({ status: "Fail", message: `Email ${email} is already in our system` });
@@ -28,6 +28,7 @@ const userExist = await findUserByEmail(email)
     phone,
     password: hashedPassword,
     role,
+    accessLevel
   };
 
   handleCreateUser(User, newUser, res);

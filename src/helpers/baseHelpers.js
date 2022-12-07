@@ -1,11 +1,11 @@
 import expressAsyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
 
 const handleGetAll = expressAsyncHandler(async (Model) => {
   const items = await Model.find({}).sort({
     createdAt: -1,
   });
-
-  return items ? items : " Internal server error";
+  return await items ? items : " Internal server error";
 });
 
 const handleCreate = expressAsyncHandler(async (Model, data, res) => {
@@ -15,7 +15,7 @@ const handleCreate = expressAsyncHandler(async (Model, data, res) => {
       .json({ status: "Fail", message: "please provide required information" });
   const body = await Model.create(data);
 
-  return res.status(400).json(body);
+  return res.status(201).json(body);
 });
 
 const handleCreateUser = expressAsyncHandler(async (Model, data, res) => {
@@ -64,11 +64,24 @@ const handleDelete = async (Model, id) => {
   return await Model.deleteOne({ _id: id });
 };
 
+// Not authorized
+const notAuthorized = (res) => {
+  res.status(401).json({message: 'Not authorized!'})
+}
+
+const userToken = (req)=>{
+  const token = req.rawHeaders[1].replace("Bearer ", "");
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+  return decodedToken;
+}
+
 export {
   handleGetAll,
   handleCreate,
   handleGetSingle,
   handleEdit,
   handleDelete,
-  handleCreateUser
+  handleCreateUser,
+  notAuthorized,
+  userToken
 };
