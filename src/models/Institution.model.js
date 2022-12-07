@@ -3,7 +3,7 @@ import User from "./User.model.js";
 
 const Schema = mongoose.Schema;
 
-const hospitalSchema = mongoose.Schema(
+const InstitutionSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -17,7 +17,7 @@ const hospitalSchema = mongoose.Schema(
       {
         ref: User,
         required: true,
-        type: ObjectId,
+        type: Schema.Types.ObjectId,
       },
     ],
     addresses: {
@@ -31,12 +31,16 @@ const hospitalSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+    }
   },
   {
     timestamps: true,
   }
 );
 
-const Hospital = mongoose.model("Hospital", hospitalSchema);
+const Institution = mongoose.model("Institution", InstitutionSchema);
 
-export default Hospital;
+export default Institution;
