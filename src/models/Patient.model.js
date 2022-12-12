@@ -12,16 +12,8 @@ const patientSchema = mongoose.Schema(
       required: true,
       min: 3,
     },
-    email: {
-      type: String,
-      required: [true, "Please add a email"],
-      unique: true,
-      min: 3,
-    },
     phone: {
       type: Number,
-      required: [true, "Please add a phone number"],
-      max: 10,
     },
     addresses: {
       province: String,
@@ -31,10 +23,18 @@ const patientSchema = mongoose.Schema(
       village: String,
     },
     status: {
-        type: String,
-        required: true,
-        default: "alive",
-      },
+      type: String,
+      required: true,
+      default: "alive",
+    },
+    diagnosis: {},
+    nationalId: {
+      type: String,
+    },
+    patientId: {
+      type: Number,
+      min: 0,
+    },
   },
   {
     timestamps: true,
