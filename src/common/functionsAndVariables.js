@@ -8,6 +8,8 @@ export const accessLevels = [
   { role: "Nurse", level: 100 },
 ];
 
+export const samiRoles = ["doctor","nurse", "receptionist", ]
+
 export const patientStatus = ["Released", "warded", "Dead", "transferred"];
 
 // check if is super admin

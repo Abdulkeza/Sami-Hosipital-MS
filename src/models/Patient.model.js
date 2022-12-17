@@ -27,7 +27,6 @@ const patientSchema = mongoose.Schema(
       required: true,
       default: "alive",
     },
-    diagnosis: {},
     nationalId: {
       type: String,
     },
