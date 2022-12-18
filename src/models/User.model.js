@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
+import Institution from "./Institution.model.js";
 
+const Schema = mongoose.Schema;
 const userSchema = mongoose.Schema(
   {
     firstName: {
@@ -33,7 +35,7 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       required: true,
-      default: "user",
+      default: "Receptionist",
     },
     accessLevel: {
       type: Number,

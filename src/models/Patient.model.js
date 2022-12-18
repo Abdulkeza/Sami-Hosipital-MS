@@ -12,11 +12,13 @@ const patientSchema = mongoose.Schema(
       required: true,
       min: 3,
     },
+    gender: {
+      type: String,
+    },
     phone: {
       type: Number,
     },
     addresses: {
-      province: String,
       district: String,
       sector: String,
       cell: String,
@@ -27,13 +29,19 @@ const patientSchema = mongoose.Schema(
       required: true,
       default: "alive",
     },
-    diagnosis: {},
     nationalId: {
       type: String,
+      // unique: true,
     },
+    transfered: {
+      type: Boolean,
+      default: false,
+    },
+    // where patient were transfered  !!!!
     patientId: {
       type: Number,
       min: 0,
+      unique: true,
     },
   },
   {

@@ -4,17 +4,13 @@ import Institution from "./Institution.model.js";
 
 const Schema = mongoose.Schema;
 
-const doctorSchema = mongoose.Schema(
+const nurseSchema = mongoose.Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
       ref: User,
       required: true,
       unique: true,
-    },
-    speciality: {
-      type: String,
-      // required: true,
     },
     institution: {
       type: Schema.Types.ObjectId,
@@ -27,6 +23,6 @@ const doctorSchema = mongoose.Schema(
   }
 );
 
-const Doctor = mongoose.model("Doctor", doctorSchema);
+const Nurse = mongoose.model("Nurse", nurseSchema);
 
-export default Doctor;
+export default Nurse;

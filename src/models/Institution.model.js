@@ -1,7 +1,4 @@
 import mongoose from "mongoose";
-import User from "./User.model.js";
-
-const Schema = mongoose.Schema;
 
 const InstitutionSchema = mongoose.Schema(
   {
@@ -13,13 +10,6 @@ const InstitutionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    users: [
-      {
-        ref: User,
-        required: true,
-        type: Schema.Types.ObjectId,
-      },
-    ],
     addresses: {
       province: String,
       district: String,
