@@ -33,7 +33,7 @@ const handleGetAllDoctors = expressAsyncHandler(async (Model) => {
   .populate({
     path: "user",
     model: User,
-    select: "firstName lastName email phone",
+    select: "firstName lastName email phone role",
   }).populate({
     path: "institution",
     model: Institution,

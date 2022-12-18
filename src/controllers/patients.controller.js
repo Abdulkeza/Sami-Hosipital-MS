@@ -5,19 +5,23 @@ import {
   handleCreate,
   handleGetSingle,
   handleDelete,
+  handleGetAll,
+  GeneratePatientId
 } from "../helpers/baseHelpers.js";
 
 // @desc Register a new patient
 // @route /api/v1/patients/register
-// @access Public 
+// @access Public
 const httpRegisterPatient = async (req, res) => {
   //@patientId this field should increament automatically and must be unique for every patient
+  const defaultPatientId = await GeneratePatientId(Patient)
+
   const { firstName, lastName, phone, addresses, nationalId } = req.body;
-// const userExist = await findUserByEmail(email)
-//     if (userExist) {
-//       return res.status(400).json({ status: "Fail", message: `Email ${email} is already in our system` });
-//     }
-//   const hashedPassword = await passwordGenerator(password);
+  // const userExist = await findUserByEmail(email)
+  //     if (userExist) {
+  //       return res.status(400).json({ status: "Fail", message: `Email ${email} is already in our system` });
+  //     }
+  //   const hashedPassword = await passwordGenerator(password);
 
   const newPatient = {
     firstName,
@@ -25,17 +29,20 @@ const httpRegisterPatient = async (req, res) => {
     phone,
     addresses,
     nationalId,
+    patientId: defaultPatientId
   };
 
-  handleCreate(Patient, newPatient, res);
+  const createdPatient = await handleCreate(Patient, newPatient, res);
+  res.status(201).json(createdPatient);
 };
-
 
 // @desc Get all patients
 // @route /api/v1/patients/
 const httpGetAllPatients = async (req, res) => {
-  const patients = await Patient.find({}).sort({createdAt: -1 });
-   (patients) ? res.status(200).json(patients) : res.status(200).json({message:"Internal server error"});
+  const patients = await Patient.find({}).sort({ createdAt: -1 });
+  patients
+    ? res.status(200).json(patients)
+    : res.status(200).json({ message: "Internal server error" });
 };
 
 // @desc Get a patients by Id
@@ -44,7 +51,8 @@ const httpGetPatient = async (req, res) => {
   const { id } = req.params;
   const patient = await handleGetSingle(Patient, id);
 
-   (!patient) ? res.status(404).json({ status: "Fail", message: "Patient Not Found!" })
+  !patient
+    ? res.status(404).json({ status: "Fail", message: "Patient Not Found!" })
     : res.status(200).json(patient);
 };
 
@@ -58,10 +66,17 @@ const httpDeletePatient = async (req, res) => {
   const { id } = req.params;
   const patient = await handleGetSingle(Patient, id);
   if (!patient) {
-    return res.status(400).json({status: "Fail", message: "Invalid patient id"})
+    return res
+      .status(400)
+      .json({ status: "Fail", message: "Invalid patient id" });
   }
-  const isDeleted = await handleDelete(Patient, id)
-  if(isDeleted.acknowledged)  res.status(200).json({message: `${patient.firstName} ${patient.lastName} removed successfully`});
+  const isDeleted = await handleDelete(Patient, id);
+  if (isDeleted.acknowledged)
+    res
+      .status(200)
+      .json({
+        message: `${patient.firstName} ${patient.lastName} removed successfully`,
+      });
 };
 
 export {

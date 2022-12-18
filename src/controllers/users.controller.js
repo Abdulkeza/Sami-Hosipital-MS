@@ -16,6 +16,7 @@ import {
   generateToken,
 } from "../helpers/userHelper.js";
 
+
 // @desc Register a new user
 // @route /api/v1/users/register
 // @access Public
@@ -71,10 +72,10 @@ const httpRegisterUser = async (req, res) => {
     } else if (role === "nurse") {
       const newNurse = {
         user: createdUser._id,
-        speciality,
+        speciality: null,
         institution,
       };
-      const createdNurse = await handleCreate(Nurse, newNurse, res);
+      const createdNurse = await handleCreate(Doctor, newNurse, res);
       res.status(201).json({
         _id: createdNurse._id,
         email: createdUser.email,
@@ -92,7 +93,10 @@ const httpRegisterUser = async (req, res) => {
         role: createdUser.role,
         phone: createdUser.phone,
       });
-    } else res.status(400).json({ message: "Invalid role" });
+    } else{
+       await handleDelete(User, createdUser._id);
+      res.status(400).json({ message: "Invalid role" });
+    } 
   } else {
     res.status(500).json({ message: "Internal server error!" });
   }

@@ -12,10 +12,6 @@ const nurseSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    speciality: {
-      type: String,
-      required: true,
-    },
     institution: {
       type: Schema.Types.ObjectId,
       ref: Institution,

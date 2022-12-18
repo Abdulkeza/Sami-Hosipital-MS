@@ -14,66 +14,67 @@ import {
 import { findUserByEmail } from "../helpers/userHelper.js";
 import passwordGenerator from "../utils/generatePassword.js";
 
-
+//@desc we are using the same route api/v1/users to create both doctors, nurse and receptioniste
+//@desc mean we do need this for now
 const httpRegisterDoctor = async (req, res) => {
-  const {
-    speciality,
-    institution,
-    firstName,
-    lastName,
-    email,
-    phone,
-    password,
-    role,
-    accessLevel,
-  } = req.body;
+  // const {
+  //   speciality,
+  //   institution,
+  //   firstName,
+  //   lastName,
+  //   email,
+  //   phone,
+  //   password,
+  //   role,
+  //   accessLevel,
+  // } = req.body;
 
   // const doctorExist = await findDoctorByUserId(user);
   // if (doctorExist) {
   //     return res.status(400).json({ status: "Fail", message: `Doctor is already in our system` });
   //   }
 
-  const userExist = await findUserByEmail(email);
-  if (userExist) {
-    return res
-      .status(400)
-      .json({
-        status: "Fail",
-        message: `Doctor ${firstName} ${lastName} is already in our system`,
-      });
-  }
-  const hashedPassword = await passwordGenerator(password);
+  // const userExist = await findUserByEmail(email);
+  // if (userExist) {
+  //   return res
+  //     .status(400)
+  //     .json({
+  //       status: "Fail",
+  //       message: `Doctor ${firstName} ${lastName} is already in our system`,
+  //     });
+  // }
+  // const hashedPassword = await passwordGenerator(password);
 
-  const newUser = {
-    firstName,
-    lastName,
-    email,
-    phone,
-    password: hashedPassword,
-    role,
-    accessLevel,
-  };
+  // const newUser = {
+  //   firstName,
+  //   lastName,
+  //   email,
+  //   phone,
+  //   password: hashedPassword,
+  //   role,
+  //   accessLevel,
+  // };
 
 
-  const createdUser = await handleCreateUser(User, newUser, res);
-  if (createdUser) {
-    const newDoctor = {
-      user: createdUser._id,
-      speciality,
-      institution,
-    };
-    const createdDoctor = await handleCreate(Doctor, newDoctor, res );
-    res.status(201).json({
-      _id: createdDoctor._id,
-      email: createdUser.email,
-      lastName: createdUser.lastName,
-      firstName: createdUser.firstName,
-      role: createdUser.role,
-      phone: createdUser.phone,
-    })
-  } else {
-    res.status(500).json({ message: "Internal server error!" });
-  }
+  // const createdUser = await handleCreateUser(User, newUser, res);
+  // if (createdUser) {
+  //   const newDoctor = {
+  //     user: createdUser._id,
+  //     speciality,
+  //     institution,
+  //   };
+  //   const createdDoctor = await handleCreate(Doctor, newDoctor, res );
+  //   res.status(201).json({
+  //     _id: createdDoctor._id,
+  //     email: createdUser.email,
+  //     lastName: createdUser.lastName,
+  //     firstName: createdUser.firstName,
+  //     role: createdUser.role,
+  //     phone: createdUser.phone,
+  //   })
+  // } else {
+  //   res.status(500).json({ message: "Internal server error!" });
+  // }
 
 };
 
@@ -94,7 +95,6 @@ const httpGetDoctor = async (req, res) => {
 const httpDeleteDoctor = async (req, res) => {
   const { id } = req.params;
   const doctor = await handleGetSingle(Doctor, id);
-  console.log(doctor.user);
   if (!doctor) {
     return res
       .status(400)

@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 
+
 const handleGetAll = expressAsyncHandler(async (Model) => {
   const items = await Model.find({}).sort({
     createdAt: -1,
@@ -69,6 +70,12 @@ const userToken = (req)=>{
   return decodedToken;
 }
 
+const GeneratePatientId = async(Model) =>{
+  const data = await Model.find({});
+  const dataLength =  data.length;
+  return dataLength < 10 ? `00${dataLength}` : dataLength < 100 ? `0${dataLength}` : dataLength
+}
+
 export {
   handleGetAll,
   handleCreate,
@@ -77,5 +84,6 @@ export {
   handleDelete,
   handleCreateUser,
   notAuthorized,
-  userToken
+  userToken,
+  GeneratePatientId
 };
