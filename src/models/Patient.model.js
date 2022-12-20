@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+import Institution from "./Institution.model.js";
+
+const Schema = mongoose.Schema;
+
 const patientSchema = mongoose.Schema(
   {
     firstName: {
@@ -43,6 +47,12 @@ const patientSchema = mongoose.Schema(
       min: 0,
       unique: true,
     },
+    referralHospital: [String],
+    institution: {
+      type: Schema.Types.ObjectId,
+      ref: Institution,
+      required: true,
+    }
   },
   {
     timestamps: true,
