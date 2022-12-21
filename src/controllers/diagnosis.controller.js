@@ -6,7 +6,8 @@ import {
 } from "../helpers/baseHelpers.js";
 import Diagnosis from "../models/Diagnosis.model.js";
 import Patient from "../models/Patient.model.js";
-import { handleGetDiagnosisByPatientId } from "../helpers/diagnosisHelper.js";
+import { handleGetDiagnosisByPatientId, handleAddDiagnosisForPatient } from "../helpers/diagnosisHelper.js";
+import { validateDiagnosisCreationAccess } from "../helpers/institutionHelper.js";
 
 const httpAddDiagnosis = async (req, res) => {
   const { patient, treatment } = req.body;
@@ -47,6 +48,16 @@ const httpGetPatientDiagnosis = async (req, res) =>{
   : res.status(200).json(diagnosis);
 }
 
+const httpUpdateDiagnosis = async(req, res) =>{
+ validateDiagnosisCreationAccess(req, res);
+ 
+ const { id } = req.params;
+ const patient = await handleGetSingle(Patient, id);
+//const {symptoms, disease, medecine} = req.body
+  const updatedDiagnosis = await handleAddDiagnosisForPatient(id, req.body);
+  (updatedDiagnosis.acknowledged)? res.status(200).json({message: `Diagnosis added to ${patient.firstName} ${patient.lastName}`}): res.status(500).json({message: "internal server error"})
+}
+
 
 const httpDeletePatientDiagnosis = async(req, res) =>{
   const { id } = req.params;
@@ -64,6 +75,7 @@ const httpDeletePatientDiagnosis = async(req, res) =>{
 export {
   httpAddDiagnosis,
   httpGetPatientDiagnosis,
-  httpDeletePatientDiagnosis
+  httpDeletePatientDiagnosis,
+  httpUpdateDiagnosis
 
 };

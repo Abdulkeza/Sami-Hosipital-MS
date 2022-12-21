@@ -1,6 +1,9 @@
 import expressAsyncHandler from "express-async-handler";
 import Diagnosis from "../models/Diagnosis.model.js";
 import Patient from "../models/Patient.model.js";
+import { handleGetSingle } from "./baseHelpers.js";
+import { notAuthorized, userToken } from "./baseHelpers.js";
+import { isSuperAdmin } from "../common/functionsAndVariables.js";
 
 
 const handleGetDiagnosisByPatientId = expressAsyncHandler(async(patientId) =>{
@@ -15,4 +18,19 @@ const handleGetDiagnosisByPatientId = expressAsyncHandler(async(patientId) =>{
    
 })
 
-export {handleGetDiagnosisByPatientId}
+const handleAddDiagnosisForPatient = expressAsyncHandler(async(patientId, diagnosis, res) =>{
+   // const {id} = req.params;
+  const dbDiagnosis =  await Diagnosis.findOne({ patient: patientId });
+   if(!dbDiagnosis) res.status(400).json({message: "Patient diagnosis not found!"});
+
+ 
+   let size = Object.keys(diagnosis).length
+
+   if(!size) res.status(400).json({message: "please add data to update"});
+
+
+   const updatedDiagnosis = await Diagnosis.updateOne(   { patient: patientId }, { $push: { treatment: diagnosis } });
+   return await updatedDiagnosis;
+})
+
+export {handleGetDiagnosisByPatientId, handleAddDiagnosisForPatient}

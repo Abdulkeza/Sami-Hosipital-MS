@@ -13,6 +13,14 @@ const validateHospitalCreationAccess = (req, res) => {
     } 
 }
 
+const validateDiagnosisCreationAccess = (req, res) => {
+  const token = userToken(req);
+    if (!isSuperAdmin(token.accessLevel)) {
+      notAuthorized(res)
+    } 
+}
+
 export {
-    validateHospitalCreationAccess
+    validateHospitalCreationAccess,
+    validateDiagnosisCreationAccess
 }

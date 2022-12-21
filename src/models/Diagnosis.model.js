@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import Patient from "./Patient.model.js";
-import Institution from "./Institution.model.js";
 
 const Schema = mongoose.Schema;
 
@@ -20,6 +19,10 @@ const diagnosisSchema = mongoose.Schema(
         timestamp: Date,
       },
     ],
+    status: {
+      type: String,
+      default: "alive"
+    },
   },
   {
     timestamps: true,

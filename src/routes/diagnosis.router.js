@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { httpAddDiagnosis, httpGetPatientDiagnosis, httpDeletePatientDiagnosis } from "../controllers/diagnosis.controller.js";
+import { httpAddDiagnosis, httpGetPatientDiagnosis, httpDeletePatientDiagnosis, httpUpdateDiagnosis } from "../controllers/diagnosis.controller.js";
 
 
 const router = Router();
@@ -7,5 +7,6 @@ const router = Router();
 router.post("/", httpAddDiagnosis);
 router.get("/:id", httpGetPatientDiagnosis);
 router.delete("/:id", httpDeletePatientDiagnosis);
+router.post("/:id", httpUpdateDiagnosis)
 
 export default router;
