@@ -15,6 +15,7 @@ import {
   isCorrectPassword,
   generateToken,
 } from "../helpers/userHelper.js";
+import Institution from "../models/Institution.model.js";
 
 
 // @desc Register a new user
@@ -49,6 +50,7 @@ const httpRegisterUser = async (req, res) => {
     password: hashedPassword,
     role,
     accessLevel,
+    institution,
   };
 
   const createdUser = await handleCreateUser(User, newUser, res);
@@ -108,6 +110,7 @@ const httpRegisterUser = async (req, res) => {
 const httpLoginUser = expressAsyncHandler(async (req, res) => {
   const userInfo = req.body;
   const foundUser = await findUserByEmail(userInfo.email);
+  const institutionInfo = await handleGetSingle(Institution, foundUser.institution);
 
   // role: foundUser.role, we should also include this in res
   if (await isCorrectPassword(foundUser, userInfo)) {
@@ -117,7 +120,9 @@ const httpLoginUser = expressAsyncHandler(async (req, res) => {
       lastName: foundUser.lastName,
       firstName: foundUser.firstName,
       role: foundUser.role,
-      token: generateToken(foundUser),
+      institution: institutionInfo,
+      token: generateToken(foundUser)
+
     });
   } else {
     res.status(401).json({ message: "Invalid credentials" });

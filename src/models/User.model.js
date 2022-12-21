@@ -49,6 +49,12 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    institution: {
+      type: Schema.Types.ObjectId,
+      ref: Institution,
+      required: true,
+      unique: true,
+    }
   },
   {
     timestamps: true,

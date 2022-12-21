@@ -6,23 +6,20 @@ const Schema = mongoose.Schema;
 
 const diagnosisSchema = mongoose.Schema(
   {
-    Patient: {
+    patient: {
       type: Schema.Types.ObjectId,
       ref: Patient,
       required: true,
       unique: true,
     },
-    symptoms: {
-      type: String,
-      required: true,
-    },
-    disease: {
-    type: String,
-    default: "None"
-    },
-    medecine: {
-      type: String,
-    }
+    treatment: [
+      {
+        symptoms: String,
+        disease: String,
+        medecine: String,
+        timestamp: Date,
+      },
+    ],
   },
   {
     timestamps: true,
