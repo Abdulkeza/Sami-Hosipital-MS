@@ -6,7 +6,8 @@ import {
   handleGetSingle,
   handleDelete,
   handleGetAll,
-  GeneratePatientId
+  GeneratePatientId,
+  handleUpdate,
 } from "../helpers/baseHelpers.js";
 
 // @desc Register a new patient
@@ -14,7 +15,7 @@ import {
 // @access Public
 const httpRegisterPatient = async (req, res) => {
   //@patientId this field should increament automatically and must be unique for every patient
-  const defaultPatientId = await GeneratePatientId(Patient)
+  const defaultPatientId = await GeneratePatientId(Patient);
 
   const { firstName, lastName, phone, addresses, nationalId } = req.body;
   // const userExist = await findUserByEmail(email)
@@ -29,7 +30,7 @@ const httpRegisterPatient = async (req, res) => {
     phone,
     addresses,
     nationalId,
-    patientId: defaultPatientId
+    patientId: defaultPatientId,
   };
 
   const createdPatient = await handleCreate(Patient, newPatient, res);
@@ -58,7 +59,15 @@ const httpGetPatient = async (req, res) => {
 
 // @desc update a users
 // @route /api/v1/users/Id
-const httpUpdatePatient = (req, res) => {};
+const httpUpdatePatient = async (req, res) => {
+  const { id } = req.params;
+  const patientData = req.body;
+  const updatedPatient = await handleUpdate(Patient, id, patientData, res);
+
+  !updatedPatient
+    ? res.status(400).json({ message: "please provide valid data" })
+    : res.status(200).json(updatedPatient);
+};
 
 // @desc delete a user
 // @route /api/v1/users/Id
@@ -72,11 +81,9 @@ const httpDeletePatient = async (req, res) => {
   }
   const isDeleted = await handleDelete(Patient, id);
   if (isDeleted.acknowledged)
-    res
-      .status(200)
-      .json({
-        message: `${patient.firstName} ${patient.lastName} removed successfully`,
-      });
+    res.status(200).json({
+      message: `${patient.firstName} ${patient.lastName} removed successfully`,
+    });
 };
 
 export {

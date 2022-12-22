@@ -8,7 +8,7 @@ import { notAuthorized, userToken } from "./baseHelpers.js";
 
 const validateHospitalCreationAccess = (req, res) => {
   const token = userToken(req);
-    if (!isSuperAdmin(token.accessLevel)) {
+    if (!isSuperAdmin(token.user.accessLevel)) {
       notAuthorized(res)
     } 
 }

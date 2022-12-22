@@ -59,6 +59,26 @@ const handleDelete = async (Model, id) => {
   return await Model.deleteOne({ _id: id });
 };
 
+const handleUpdate = expressAsyncHandler(async(model, itemId, newData, res) =>{
+  // const id = req.params.id;
+
+  const dbItem = await model.findById(itemId);
+  if (!dbItem)
+    return res.status(404).json({ message: "ooops! we can't find what you are looking for!" });
+
+  try {
+    const updateItem = await model.findByIdAndUpdate(itemId, newData, {
+      new: true,
+    });
+    return updateItem;
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Internal server error!" });
+  }
+})
+
 // Not authorized
 const notAuthorized = (res) => {
   res.status(401).json({message: 'Not authorized!'})
@@ -86,5 +106,6 @@ export {
   handleCreateUser,
   notAuthorized,
   userToken,
-  GeneratePatientId
+  GeneratePatientId,
+  handleUpdate
 };
