@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Patient from "./Patient.model.js";
+import Doctor from "./Doctor.model.js";
 
 const Schema = mongoose.Schema;
 
@@ -16,7 +17,10 @@ const diagnosisSchema = mongoose.Schema(
         symptoms: String,
         disease: String,
         medecine: String,
-        timestamp: Date,
+        examiner: {
+          type: Schema.Types.ObjectId,
+          ref: Doctor,
+        },
       },
     ],
     status: {

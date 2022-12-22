@@ -12,7 +12,7 @@ const handleGetDiagnosisByPatientId = expressAsyncHandler(async(patientId) =>{
         path: "patient",
         model: Patient,
         select: "firstName lastName gender phone addresses status transfered patientId"
-    })
+    });
 
     return await patientDiagnosis;
    
@@ -23,14 +23,24 @@ const handleAddDiagnosisForPatient = expressAsyncHandler(async(patientId, diagno
   const dbDiagnosis =  await Diagnosis.findOne({ patient: patientId });
    if(!dbDiagnosis) res.status(400).json({message: "Patient diagnosis not found!"});
 
- 
-   let size = Object.keys(diagnosis).length
 
-   if(!size) res.status(400).json({message: "please add data to update"});
+//    let size = Object.keys(diagnosis).length
+
+// if(!diagnosis["symptoms"] || !diagnosis["disease"] || !diagnosis["medecine"]){
+//     res.status(400).json({message: "Please provide patient symptoms, disease and medecine"})
+// }
 
 
    const updatedDiagnosis = await Diagnosis.updateOne(   { patient: patientId }, { $push: { treatment: diagnosis } });
    return await updatedDiagnosis;
 })
 
-export {handleGetDiagnosisByPatientId, handleAddDiagnosisForPatient}
+const validateDiagnosisCreation =expressAsyncHandler(async(diagnosis, req, res) =>{
+    if(!diagnosis["symptoms"] || !diagnosis["disease"] || !diagnosis["medecine"]){
+        res.status(400).json({message: "Please provide patient symptoms, disease and medecine"})
+    } else if(!diagnosis["examiner"]){
+        res.status(400).json({message: "Please add examiner!"});
+    }
+})
+
+export {handleGetDiagnosisByPatientId, handleAddDiagnosisForPatient, validateDiagnosisCreation}
