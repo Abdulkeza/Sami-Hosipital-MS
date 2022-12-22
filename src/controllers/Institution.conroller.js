@@ -16,9 +16,9 @@ const httpRegisterInstitution = async (req, res) => {
   //       }
   //     const hashedPassword = await passwordGenerator(password);
 
-  if (type == institutionTypes[0]) {
-    validateHospitalCreationAccess(req, res);
-  }
+  // if (type == institutionTypes[0]) {
+  //   validateHospitalCreationAccess(req, res);
+  // }
 
   const newInstitution = {
     name,

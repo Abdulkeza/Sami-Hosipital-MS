@@ -7,11 +7,12 @@ import {
   httpDeleteUser,
   httpLoginUser,
 } from "../controllers/users.controller.js";
+import authenticated from "../middleware/auth.middleware.js";
 
 const router = Router();
 
 router.post("/", httpRegisterUser);
-router.get("/", httpGetAllUsers);
+router.get("/", authenticated, httpGetAllUsers);
 router.post("/login", httpLoginUser);
 router.get("/:id", httpGetUser);
 router.patch("/:id", httpUpdateUser);

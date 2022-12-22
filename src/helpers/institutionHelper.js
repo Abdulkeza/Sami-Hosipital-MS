@@ -1,5 +1,4 @@
 
-import Institution from "../models/Institution.model.js";
 import { isSuperAdmin } from "../common/functionsAndVariables.js";
 import { notAuthorized, userToken } from "./baseHelpers.js";
 

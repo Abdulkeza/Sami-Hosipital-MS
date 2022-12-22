@@ -1,13 +1,14 @@
 import { Router } from "express";
 
 import { httpRegisterDoctor, httpGetDoctors, httpGetDoctor, httpDeleteDoctor } from "../controllers/doctors.controller.js";
+import authenticated from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.post("/", httpRegisterDoctor);
-router.get("/", httpGetDoctors);
-router.get("/:id", httpGetDoctor);
-// router.patch("/:id", httpUpdateUser);
-router.delete("/:id", httpDeleteDoctor);
+router.post("/", authenticated, httpRegisterDoctor);
+router.get("/",authenticated, httpGetDoctors);
+router.get("/:id",authenticated, httpGetDoctor);
+// router.patch("/:id",authenticated, httpUpdateUser);
+router.delete("/:id", authenticated, httpDeleteDoctor);
 
 export default router;
