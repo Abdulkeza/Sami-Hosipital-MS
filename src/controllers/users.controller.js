@@ -110,23 +110,28 @@ const httpRegisterUser = async (req, res) => {
 const httpLoginUser = expressAsyncHandler(async (req, res) => {
   const userInfo = req.body;
   const foundUser = await findUserByEmail(userInfo.email);
-  const institutionInfo = await handleGetSingle(Institution, foundUser.institution);
+  try {
+    const institutionInfo = await handleGetSingle(Institution, foundUser.institution);
 
-  // role: foundUser.role, we should also include this in res
-  if (await isCorrectPassword(foundUser, userInfo)) {
-    res.status(200).json({
-      _id: foundUser._id,
-      email: foundUser.email,
-      lastName: foundUser.lastName,
-      firstName: foundUser.firstName,
-      role: foundUser.role,
-      institution: institutionInfo,
-      token: generateToken(foundUser)
-
-    });
-  } else {
-    res.status(401).json({ message: "Invalid credentials" });
+    // role: foundUser.role, we should also include this in res
+    if (await isCorrectPassword(foundUser, userInfo)) {
+      res.status(200).json({
+        _id: foundUser._id,
+        email: foundUser.email,
+        lastName: foundUser.lastName,
+        firstName: foundUser.firstName,
+        role: foundUser.role,
+        institution: institutionInfo,
+        token: generateToken(foundUser)
+  
+      });
+    } else {
+      res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    res.status(500).json({message: `We can't find a user with ${userInfo.email}`})
   }
+
 });
 
 // @desc Get all users

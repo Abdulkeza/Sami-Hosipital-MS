@@ -7,6 +7,6 @@ const router = Router();
 router.post("/", httpAddDiagnosis);
 router.get("/:id", httpGetPatientDiagnosis);
 router.delete("/:id", httpDeletePatientDiagnosis);
-router.post("/:id", httpUpdateDiagnosis)
+router.patch("/:id", httpUpdateDiagnosis)
 
 export default router;

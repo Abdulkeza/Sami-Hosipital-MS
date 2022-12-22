@@ -31,7 +31,7 @@ const handleAddDiagnosisForPatient = expressAsyncHandler(async(patientId, diagno
 // }
 
 
-   const updatedDiagnosis = await Diagnosis.updateOne(   { patient: patientId }, { $push: { treatment: diagnosis } });
+   const updatedDiagnosis = await Diagnosis.updateOne(   { patient: patientId }, { $push: { treatment: diagnosis } },);
    return await updatedDiagnosis;
 })
 

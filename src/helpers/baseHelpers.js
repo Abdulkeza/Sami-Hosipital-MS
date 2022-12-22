@@ -73,7 +73,8 @@ const userToken = (req)=>{
 const GeneratePatientId = async(Model) =>{
   const data = await Model.find({});
   const dataLength =  data.length;
-  return dataLength < 10 ? `00${dataLength}` : dataLength < 100 ? `0${dataLength}` : dataLength
+  return dataLength + 1
+  //return dataLength < 10 ? `00${dataLength + 1}` : dataLength < 100 ? `0${dataLength + 1}` : dataLength + 1
 }
 
 export {

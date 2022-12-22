@@ -51,7 +51,6 @@ const patientSchema = mongoose.Schema(
     institution: {
       type: Schema.Types.ObjectId,
       ref: Institution,
-      required: true,
     }
   },
   {
