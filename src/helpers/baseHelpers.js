@@ -84,8 +84,10 @@ const notAuthorized = (res) => {
   res.status(401).json({message: 'Not authorized!'})
 }
 
-const userToken = (req)=>{
-  const token = req.rawHeaders[1].replace("Bearer ", "");
+const userToken = (req, res)=>{
+   const headerAuth = req.headers.authorization;
+   if(!headerAuth) res.status(404).json({message: "Not authorized!"});
+  const token = headerAuth.replace("Bearer ", "");
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
   return decodedToken;
 }

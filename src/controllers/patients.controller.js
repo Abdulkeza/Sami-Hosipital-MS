@@ -17,7 +17,7 @@ const httpRegisterPatient = async (req, res) => {
   //@patientId this field should increament automatically and must be unique for every patient
   const defaultPatientId = await GeneratePatientId(Patient);
 
-  const { firstName, lastName, phone, addresses, nationalId } = req.body;
+  const { firstName, lastName, phone, addresses, nationalId, institution } = req.body;
   // const userExist = await findUserByEmail(email)
   //     if (userExist) {
   //       return res.status(400).json({ status: "Fail", message: `Email ${email} is already in our system` });
@@ -31,6 +31,7 @@ const httpRegisterPatient = async (req, res) => {
     addresses,
     nationalId,
     patientId: defaultPatientId,
+    institution
   };
 
   const createdPatient = await handleCreate(Patient, newPatient, res);
