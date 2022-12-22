@@ -9,7 +9,7 @@ import { validateHospitalCreationAccess } from "../helpers/institutionHelper.js"
 import { institutionTypes } from "../common/functionsAndVariables.js";
 
 const httpRegisterInstitution = async (req, res) => {
-  const { name, email, users, phone, type } = req.body;
+  const { name, email, users, phone, type, admin } = req.body;
   //   const userExist = await findUserByEmail(email)
   //       if (userExist) {
   //         return res.status(400).json({ status: "Fail", message: `Email ${email} is already in our system` });
@@ -26,6 +26,7 @@ const httpRegisterInstitution = async (req, res) => {
     users,
     phone,
     type,
+    admin
   };
   const createdInstitution = await handleCreate(
     Institution,

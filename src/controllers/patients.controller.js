@@ -14,15 +14,9 @@ import {
 // @route /api/v1/patients/register
 // @access Public
 const httpRegisterPatient = async (req, res) => {
-  //@patientId this field should increament automatically and must be unique for every patient
   const defaultPatientId = await GeneratePatientId(Patient);
 
   const { firstName, lastName, phone, addresses, nationalId, institution } = req.body;
-  // const userExist = await findUserByEmail(email)
-  //     if (userExist) {
-  //       return res.status(400).json({ status: "Fail", message: `Email ${email} is already in our system` });
-  //     }
-  //   const hashedPassword = await passwordGenerator(password);
 
   const newPatient = {
     firstName,
@@ -41,6 +35,7 @@ const httpRegisterPatient = async (req, res) => {
 // @desc Get all patients
 // @route /api/v1/patients/
 const httpGetAllPatients = async (req, res) => {
+  console.log("+++++++++++++++", req)
   const patients = await Patient.find({}).sort({ createdAt: -1 });
   patients
     ? res.status(200).json(patients)
@@ -70,6 +65,14 @@ const httpUpdatePatient = async (req, res) => {
     : res.status(200).json(updatedPatient);
 };
 
+const httpGetPatientsWithinInstitution = async(req, res) =>{
+
+}
+
+const httpGetTransferredPatientsWithinInstitution = async(req, res) =>{
+
+}
+
 // @desc delete a user
 // @route /api/v1/users/Id
 const httpDeletePatient = async (req, res) => {
@@ -93,4 +96,6 @@ export {
   httpGetPatient,
   httpUpdatePatient,
   httpDeletePatient,
+  httpGetPatientsWithinInstitution,
+  httpGetTransferredPatientsWithinInstitution
 };

@@ -21,6 +21,7 @@ const handleGetDiagnosisByPatientId = expressAsyncHandler(async(patientId) =>{
 const handleAddDiagnosisForPatient = expressAsyncHandler(async(patientId, diagnosis, res) =>{
    // const {id} = req.params;
   const dbDiagnosis =  await Diagnosis.findOne({ patient: patientId });
+
    if(!dbDiagnosis) res.status(400).json({message: "Patient diagnosis not found!"});
 
 

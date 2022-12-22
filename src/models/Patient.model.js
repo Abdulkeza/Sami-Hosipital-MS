@@ -47,6 +47,10 @@ const patientSchema = mongoose.Schema(
       min: 0,
       unique: true,
     },
+    hasDiagnosis: {
+      type: Boolean,
+      default: false
+    },
     referralHospital: [String],
     institution: {
       type: Schema.Types.ObjectId,

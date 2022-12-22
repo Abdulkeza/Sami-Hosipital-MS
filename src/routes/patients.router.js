@@ -1,14 +1,25 @@
 import { Router } from "express";
-import { httpRegisterPatient, httpGetAllPatients, httpGetPatient, httpDeletePatient, httpUpdatePatient } from "../controllers/patients.controller.js";
+import {
+  httpRegisterPatient,
+  httpGetAllPatients,
+  httpGetPatient,
+  httpDeletePatient,
+  httpUpdatePatient,
+  httpGetPatientsWithinInstitution,
+  httpGetTransferredPatientsWithinInstitution
+} from "../controllers/patients.controller.js";
 import authenticated from "../middleware/auth.middleware.js";
-
 
 const router = Router();
 
-router.post("/", authenticated, httpRegisterPatient);
-router.get("/",authenticated, httpGetAllPatients);
-router.get("/:id",authenticated, httpGetPatient);
- router.patch("/:id", authenticated, httpUpdatePatient);
+router.post("/", httpRegisterPatient);
+router.get("/", authenticated, httpGetAllPatients);
+router.get("/:id", authenticated, httpGetPatient);
+router.patch("/:id", authenticated, httpUpdatePatient);
+router.get("/", authenticated, httpGetPatientsWithinInstitution);
+router.get("/", authenticated, httpGetTransferredPatientsWithinInstitution);
+
 router.delete("/:id", authenticated, httpDeletePatient);
+
 
 export default router;

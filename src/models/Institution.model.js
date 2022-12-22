@@ -21,6 +21,7 @@ const InstitutionSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    admin: [String],
     type: {
       type: String,
       required: true,

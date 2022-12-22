@@ -3,6 +3,7 @@ import {
   handleGetAll,
   handleGetSingle,
   handleDelete,
+  handleUpdate
 } from "../helpers/baseHelpers.js";
 import Diagnosis from "../models/Diagnosis.model.js";
 import Patient from "../models/Patient.model.js";
@@ -30,48 +31,46 @@ const httpAddDiagnosis = async (req, res) => {
     treatment,
     timestamp: new Date(),
   };
- 
+
   const createdDiagnosis = await handleCreate(Diagnosis, newDiagnosis, res);
 
-  createdDiagnosis
-    ? res.status(201).json({
-        message: `Diagnosis successifully added to ${patientExist.firstName} ${patientExist.lastName}`,
-      })
-    : res.status(500).json({ message: "Internal server error" });
+  if (createdDiagnosis) {
+    await handleUpdate(Patient, patient, {hasDiagnosis: true}, res);
+    res.status(201).json({ message: `Diagnosis successifully added to ${patientExist.firstName} ${patientExist.lastName}`,
+    })
+  } else {
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 const httpGetPatientDiagnosis = async (req, res) => {
   const { id } = req.params;
   const diagnosis = await handleGetDiagnosisByPatientId(id);
   !diagnosis
-    ? res
-        .status(404)
-        .json({
-          status: "Fail",
-          message: "We can not find diagnosis for this patient",
-        })
+    ? res.status(404).json({
+        status: "Fail",
+        message: "We can not find diagnosis for this patient",
+      })
     : res.status(200).json(diagnosis);
 };
 
 const httpUpdateDiagnosis = async (req, res) => {
-  validateDiagnosisCreationAccess(req, res);
+  // validateDiagnosisCreationAccess(req, res);
 
   const { id } = req.params;
   const patient = await handleGetSingle(Patient, id);
   const diagnosisData = req.body;
- console.log("++++++++++++++before++++++++++++++")
-  validateDiagnosisCreation(diagnosisData, req, res);
-  console.log("++++++++++++++after++++++++++++++")
+  //  console.log("++++++++++++++before++++++++++++++")
+  //   validateDiagnosisCreation(diagnosisData, req, res);
+  //   console.log("++++++++++++++after++++++++++++++")
   const updatedDiagnosis = await handleAddDiagnosisForPatient(
     id,
     diagnosisData
   );
   updatedDiagnosis.acknowledged
-    ? res
-        .status(200)
-        .json({
-          message: `Diagnosis added to ${patient.firstName} ${patient.lastName}`,
-        })
+    ? res.status(200).json({
+        message: `Diagnosis added to ${patient.firstName} ${patient.lastName}`,
+      })
     : res.status(500).json({ message: "internal server error" });
 };
 
