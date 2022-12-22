@@ -35,8 +35,7 @@ const httpRegisterPatient = async (req, res) => {
 // @desc Get all patients
 // @route /api/v1/patients/
 const httpGetAllPatients = async (req, res) => {
-  console.log("+++++++++++++++", req)
-  const patients = await Patient.find({}).sort({ createdAt: -1 });
+  const patients = await Patient.find({institution: req.user.institution}).sort({ createdAt: -1 });
   patients
     ? res.status(200).json(patients)
     : res.status(200).json({ message: "Internal server error" });

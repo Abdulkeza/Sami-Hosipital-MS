@@ -17,7 +17,6 @@ import {
 } from "../helpers/userHelper.js";
 import Institution from "../models/Institution.model.js";
 
-
 // @desc Register a new user
 // @route /api/v1/users/register
 // @access Public
@@ -95,10 +94,10 @@ const httpRegisterUser = async (req, res) => {
         role: createdUser.role,
         phone: createdUser.phone,
       });
-    } else{
-       await handleDelete(User, createdUser._id);
+    } else {
+      await handleDelete(User, createdUser._id);
       res.status(400).json({ message: "Invalid role" });
-    } 
+    }
   } else {
     res.status(500).json({ message: "Internal server error!" });
   }
@@ -111,7 +110,10 @@ const httpLoginUser = expressAsyncHandler(async (req, res) => {
   const userInfo = req.body;
   const foundUser = await findUserByEmail(userInfo.email);
   try {
-    const institutionInfo = await handleGetSingle(Institution, foundUser.institution);
+    const institutionInfo = await handleGetSingle(
+      Institution,
+      foundUser.institution
+    );
 
     // role: foundUser.role, we should also include this in res
     if (await isCorrectPassword(foundUser, userInfo)) {
@@ -122,16 +124,26 @@ const httpLoginUser = expressAsyncHandler(async (req, res) => {
         firstName: foundUser.firstName,
         role: foundUser.role,
         institution: institutionInfo,
-        token: generateToken(foundUser)
-  
+        token: generateToken({
+          _id: foundUser._id,
+          email: foundUser.email,
+          role: foundUser.role,
+          institution: foundUser.institution,
+          lastName: foundUser.lastName,
+          firstName: foundUser.firstName,
+          accessLevel: foundUser.accessLevel,
+          isActive: foundUser.isActive,
+        }),
       });
     } else {
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (error) {
-    res.status(500).json({message: `We can't find a user with ${userInfo.email}`})
+    console.log(error.message);
+    res
+      .status(500)
+      .json({ message: `We can't find a user with ${userInfo.email}` });
   }
-
 });
 
 // @desc Get all users
