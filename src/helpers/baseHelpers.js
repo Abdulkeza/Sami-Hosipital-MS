@@ -95,8 +95,7 @@ const userToken = (req, res)=>{
 const GeneratePatientId = async(Model) =>{
   const data = await Model.find({});
   const dataLength =  data.length;
-  return dataLength + 1
-  //return dataLength < 10 ? `00${dataLength + 1}` : dataLength < 100 ? `0${dataLength + 1}` : dataLength + 1
+  return Math.floor(Math.random() * (10000 - 10) + 10);
 }
 
 export {
