@@ -51,6 +51,7 @@ const patientSchema = mongoose.Schema(
       type: Boolean,
       default: false
     },
+    transferedFrom:String,
     referralHospital: [String],
     institution: {
       type: Schema.Types.ObjectId,

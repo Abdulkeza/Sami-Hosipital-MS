@@ -1,5 +1,4 @@
 import expressAsyncHandler from "express-async-handler";
-
 import Patient from "../models/Patient.model.js";
 import {
   handleCreate,

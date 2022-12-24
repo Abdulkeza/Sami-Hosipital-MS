@@ -41,7 +41,7 @@ const httpAddDiagnosis = async (req, res) => {
   const createdDiagnosis = await handleCreate(Diagnosis, newDiagnosis, res);
 
   if (createdDiagnosis) {
-    await handleUpdate(Patient, patient, { hasDiagnosis: true }, res);
+    await handleUpdate(Patient, patient, { hasDiagnosis: true, transferedFrom: req.user.institution }, res);
     res
       .status(201)
       .json({
@@ -86,7 +86,7 @@ const httpUpdateDiagnosis = async (req, res) => {
     await handleUpdate(
       Patient,
       id,
-      { referralHospital: diagnosisData.referralHospital, transfered: true },
+      { referralHospital: diagnosisData.referralHospital, transfered: true, transferedFrom: req.user.institution },
       res
     );
   }
