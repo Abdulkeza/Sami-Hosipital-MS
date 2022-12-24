@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Patient from "./Patient.model.js";
-import Doctor from "./Doctor.model.js";
+import User from "./User.model.js";
 
 const Schema = mongoose.Schema;
 
@@ -19,14 +19,14 @@ const diagnosisSchema = mongoose.Schema(
         medecine: String,
         examiner: {
           type: Schema.Types.ObjectId,
-          ref: Doctor,
+          ref: User,
+        },
+        status: {
+          type: String,
+          default: "alive",
         },
       },
     ],
-    status: {
-      type: String,
-      default: "alive"
-    },
   },
   {
     timestamps: true,

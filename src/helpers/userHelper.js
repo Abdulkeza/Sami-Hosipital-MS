@@ -24,6 +24,7 @@ const isCorrectPassword = expressAsyncHandler(async (foundUser, userInfo) => {
 
 // Token generator
 const generateToken = (user) => {
+  console.log(user)
   //we may also include user role with in token???????????????/
   return jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: '60d'

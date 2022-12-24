@@ -10,7 +10,6 @@ import Patient from "../models/Patient.model.js";
 import {
   handleGetDiagnosisByPatientId,
   handleAddDiagnosisForPatient,
-  validateDiagnosisCreation,
 } from "../helpers/diagnosisHelper.js";
 import { validateDiagnosisCreationAccess } from "../helpers/institutionHelper.js";
 
@@ -29,8 +28,11 @@ const httpAddDiagnosis = async (req, res) => {
   const newDiagnosis = {
     patient,
     treatment,
+    examiner: req.user._id,
     timestamp: new Date(),
   };
+
+  console.log(req.user._id)
 
   const createdDiagnosis = await handleCreate(Diagnosis, newDiagnosis, res);
 
@@ -60,13 +62,15 @@ const httpUpdateDiagnosis = async (req, res) => {
   const { id } = req.params;
   const patient = await handleGetSingle(Patient, id);
   const diagnosisData = req.body;
-  //  console.log("++++++++++++++before++++++++++++++")
-  //   validateDiagnosisCreation(diagnosisData, req, res);
-  //   console.log("++++++++++++++after++++++++++++++")
   const updatedDiagnosis = await handleAddDiagnosisForPatient(
     id,
-    diagnosisData
+    {...diagnosisData, examiner: req.user._id},
   );
+
+if(updatedDiagnosis.acknowledged && diagnosisData.status === "transferred"){
+  await handleUpdate(Patient, id, {referralHospital: diagnosisData.referralHospital, transfered: true}, res);
+}
+
   updatedDiagnosis.acknowledged
     ? res.status(200).json({
         message: `Diagnosis added to ${patient.firstName} ${patient.lastName}`,

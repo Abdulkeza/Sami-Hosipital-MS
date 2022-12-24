@@ -35,6 +35,7 @@ const httpRegisterPatient = async (req, res) => {
 // @desc Get all patients
 // @route /api/v1/patients/
 const httpGetAllPatients = async (req, res) => {
+  console.log(req.user)
   const patients = await Patient.find({institution: req.user.institution}).sort({ createdAt: -1 });
   patients
     ? res.status(200).json(patients)
@@ -57,6 +58,7 @@ const httpGetPatient = async (req, res) => {
 const httpUpdatePatient = async (req, res) => {
   const { id } = req.params;
   const patientData = req.body;
+  
   const updatedPatient = await handleUpdate(Patient, id, patientData, res);
 
   !updatedPatient
