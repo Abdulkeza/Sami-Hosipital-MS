@@ -17,7 +17,7 @@ router.get("/", authenticated, httpGetAllPatients);
 router.get("/:id", authenticated, httpGetPatient);
 router.patch("/:id", authenticated, httpUpdatePatient);
 router.get("/", authenticated, httpGetPatientsWithinInstitution);
-router.get("/incoming/patients", authenticated, httpGetTransferredPatientsWithinInstitution);
+router.get("/incoming/transfers", authenticated, httpGetTransferredPatientsWithinInstitution);
 
 router.delete("/:id", authenticated, httpDeletePatient);
 

@@ -25,13 +25,6 @@ const handleAddDiagnosisForPatient = expressAsyncHandler(async(patientId, diagno
    if(!dbDiagnosis) res.status(400).json({message: "Patient diagnosis not found!"});
 
 
-//    let size = Object.keys(diagnosis).length
-
-// if(!diagnosis["symptoms"] || !diagnosis["disease"] || !diagnosis["medecine"]){
-//     res.status(400).json({message: "Please provide patient symptoms, disease and medecine"})
-// }
-
-
    const updatedDiagnosis = await Diagnosis.updateOne(   { patient: patientId }, { $push: { treatment: diagnosis } },);
    return await updatedDiagnosis;
 })

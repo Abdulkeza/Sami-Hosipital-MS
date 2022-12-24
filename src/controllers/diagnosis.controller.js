@@ -16,6 +16,8 @@ import { validateDiagnosisCreationAccess } from "../helpers/institutionHelper.js
 
 const httpAddDiagnosis = async (req, res) => {
   const { patient, treatment } = req.body;
+  try {
+    
   const patientExist = await handleGetSingle(Patient, patient);
   if (!patientExist)
     return res
@@ -35,7 +37,6 @@ const httpAddDiagnosis = async (req, res) => {
     timestamp: new Date(),
   };
 
-  console.log(req.user._id);
 
   const createdDiagnosis = await handleCreate(Diagnosis, newDiagnosis, res);
 
@@ -49,9 +50,14 @@ const httpAddDiagnosis = async (req, res) => {
   } else {
     res.status(500).json({ message: "Internal server error" });
   }
+} catch (error) {
+  return  res.status(500).json({message: "Internal server error!"})
+}
+
 };
 
 const httpGetPatientDiagnosis = async (req, res) => {
+  try {
   const { id } = req.params;
   const diagnosis = await handleGetDiagnosisByPatientId(id);
   !diagnosis
@@ -60,9 +66,14 @@ const httpGetPatientDiagnosis = async (req, res) => {
         message: "We can not find diagnosis for this patient",
       })
     : res.status(200).json(diagnosis);
+
+  } catch (error) {
+    return  res.status(500).json({message: "Internal server error!"})
+  }
 };
 
 const httpUpdateDiagnosis = async (req, res) => {
+  try{
   const { id } = req.params;
   const patient = await handleGetSingle(Patient, id);
   const diagnosisData = req.body;
@@ -85,6 +96,10 @@ const httpUpdateDiagnosis = async (req, res) => {
         message: `Diagnosis added to ${patient.firstName} ${patient.lastName}`,
       })
     : res.status(500).json({ message: "internal server error" });
+
+  } catch (error) {
+    return  res.status(500).json({message: "Internal server error!"})
+  }
 };
 
 const httpDeletePatientDiagnosis = async (req, res) => {
