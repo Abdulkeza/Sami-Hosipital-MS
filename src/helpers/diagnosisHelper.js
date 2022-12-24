@@ -44,4 +44,16 @@ const validateDiagnosisCreation =expressAsyncHandler(async(diagnosis, req, res) 
     }
 })
 
-export {handleGetDiagnosisByPatientId, handleAddDiagnosisForPatient, validateDiagnosisCreation}
+const findPatientWithDiagnosis = expressAsyncHandler(async (patientId) => {
+    return await Diagnosis.findOne({ patient: patientId }, (error, result) => {
+      if (error) return null;
+      return result;
+    })
+      .clone()
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+  
+
+export {handleGetDiagnosisByPatientId, handleAddDiagnosisForPatient, validateDiagnosisCreation, findPatientWithDiagnosis}
