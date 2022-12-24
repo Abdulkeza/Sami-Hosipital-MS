@@ -53,7 +53,6 @@ const userSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: Institution,
       required: true,
-      unique: true,
     }
   },
   {
