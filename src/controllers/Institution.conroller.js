@@ -7,7 +7,9 @@ import {
 import Institution from "../models/Institution.model.js";
 import { validateHospitalCreationAccess } from "../helpers/institutionHelper.js";
 import { institutionTypes } from "../common/functionsAndVariables.js";
-
+import User from "../models/User.model.js";
+import passwordGenerator from "../utils/generatePassword.js";
+ 
 const httpRegisterInstitution = async (req, res) => {
   const { name, email, users, phone, type, admin } = req.body;
   //   const userExist = await findUserByEmail(email)
@@ -33,6 +35,17 @@ const httpRegisterInstitution = async (req, res) => {
     newInstitution,
     res
   );
+
+  const body = await User.create({
+    firstName:name,
+    lastName:'-' ,
+    email:email ,
+    phone:phone,
+    password: await passwordGenerator('1234'),
+    role:'receptionist',
+    institution:createdInstitution._id,
+  });
+  console.log(body)
   createdInstitution
     ? res.status(201).json(createdInstitution)
     : res.status(500).json({ message: "Internal server error!" });
