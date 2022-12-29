@@ -149,7 +149,7 @@ const httpLoginUser = expressAsyncHandler(async (req, res) => {
 // @desc Get all users
 // @route /api/v1/users/
 const httpGetAllUsers = async (req, res) => {
-  const users = await User.find({}).select("-password").sort({ firstName: 1 });
+  const users = await User.find({institution: req.user.institution,}).select("-password").sort({ firstName: 1 });
   users
     ? res.status(200).json(users)
     : res.status(200).json({ message: "Internal server error" });
